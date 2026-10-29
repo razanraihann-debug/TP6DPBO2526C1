@@ -51,45 +51,7 @@ Dengan status ini, `move()` cukup mengecek `if (state != PLAYING) return;` untuk
 - **Efek Game Over:** saat Game Over, adegan terakhir difoto ke `BufferedImage`. Dari foto itu dibuat versi abu-abu dengan rumus luminansi `0,299R + 0,587G + 0,114B` (saturasi 0). Tiap frame, `View` menggambar foto berwarna, menumpuk foto abu-abu dengan alpha naik 0→1 (fade in), lalu menumpuk lapisan merah yang alpha-nya turun dari 0,75→0 (flash).
 - **Audio:** BGM berulang dengan `Clip.loop`. Efek suara untuk lompat, skor, tabrakan, dan game over memakai `Clip` yang diputar ulang dari awal. Tiap kelipatan 10 skor, efek skor diganti efek spesial.
 # Alur Program
-## Alur program dari awal
-1. `App.main()` membuat `Logic` dan `View`, lalu menghubungkan keduanya dengan `setView()`.
-2. `App` membuat JFrame berisi `CardLayout` dengan dua kartu: `menu` dan `game`.
-3. **Main Menu tampil.** Pemain memilih:
-   - **KELUAR** → `System.exit(0)`.
-   - **MULAI** → berpindah ke kartu `game`, memanggil `logic.startGame()`, lalu `View` meminta fokus keyboard.
-4. `startGame()` memanggil `resetGame()`, menyalakan BGM, dan menjalankan `gameLoop`. Status menjadi `READY`.
-## Alur saat bermain
-1. **Menunggu (`READY`):** muncul pesan "Tekan SPASI untuk mulai".
-2. **SPASI pertama:**
-   - Status menjadi `PLAYING`.
-   - Pipa pertama langsung dibuat, lalu `pipesCooldown` dinyalakan.
-   - Burung loncat (`velocityY = -10`) dan efek suara lompat berbunyi.
-3. **Setiap frame (60 kali per detik)** di `move()`:
-   1. `velocityY += gravity`, lalu `posY += velocityY`.
-   2. Hitung sudut rotasi burung.
-   3. Cek jatuh: kalau menyentuh batas bawah → **Game Over**.
-   4. Untuk tiap pipa:
-      - Geser ke kiri sebesar `pipeVelocityX`.
-      - Cek tabrakan dengan burung → kalau kena, **Game Over**.
-      - Cek apakah sudah dilewati → kalau ya, `score++`, update `JLabel` skor, lalu putar efek suara. Kelipatan 10 memakai efek spesial.
-      - Hapus pipa yang sudah keluar layar dari daftar.
-   5. `repaint()` → `View` menggambar latar, pipa, lalu burung yang sudah dirotasi.
-4. **Setiap 1,5 detik:** `placePipes()` membuat sepasang pipa dengan celah 160px di posisi Y acak, dengan margin 80px dari tepi atas dan bawah.
-## Alur Game Over
-1. `gameOver()` dipanggil dari `move()`, karena burung menabrak pipa atau jatuh.
-2. Yang dilakukan:
-   - Status menjadi `GAME_OVER`, sehingga `move()` langsung berhenti.
-   - `pipesCooldown` dimatikan dan BGM dihentikan.
-   - Efek suara tabrakan dan game over diputar.
-   - Skor terbaik diperbarui.
-   - `view.startGameOverEffect()` memotret layar dan menyiapkan versi abu-abu.
-   - Muncul pesan "GAME OVER", skor, dan skor terbaik.
-3. `gameLoop` tetap berjalan, jadi `View` terus menggambar flash merah yang cepat hilang dan fade ke abu-abu.
-4. Pemain memilih:
-   - **R** → `resetGame()`: pipa dihapus, burung kembali ke posisi awal, skor jadi 0, efek dihapus, status kembali `READY`, BGM nyala lagi.
-   - **M** → `gameLoop` dihentikan, lalu kembali ke Main Menu lewat `menuListener`.
-Saat Game Over, SPASI tidak ada efeknya, karena handler `keyPressed` memeriksa status lebih dulu.
-## Ringkasan alur
+atus menjadi `PLAYING`.
 ```
 Mulai program → Main Menu ─ KELUAR → selesai
                     │
