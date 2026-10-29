@@ -1,7 +1,9 @@
 # Janji
 Saya Razan Raihan Malik dengan NIM 2508838 mengerjakan Tugas Praktikum 6 pada Mata Kuliah Desain dan Pemrograman Berorientasi Objek (DPBO) untuk keberkahan-Nya maka saya tidak melakukan kecurangan seperti yang telah dispesifikasikan. Aamiin
+
 # Struktur File
 <img width="258" height="378" alt="Screenshot 2026-10-29 at 13 39 22" src="https://github.com/user-attachments/assets/bf205a56-e0eb-4f5e-ac1a-23d2ee92805a" />
+
 # Desain / Fungsi Program
 ## Arsitektur
 Program memakai pemisahan **Logic** (aturan dan data permainan) dan **View** (tampilan), mirip pola MVC sederhana.
@@ -14,6 +16,7 @@ Program memakai pemisahan **Logic** (aturan dan data permainan) dan **View** (ta
 | `Player` | Data burung: posisi, ukuran, kecepatan vertikal, gambar, dan sudut rotasi. |
 | `Pipe` | Data pipa: posisi, ukuran, gambar, dan status `passed` (sudah dilewati atau belum). |
 | `Sound` | Pengelola audio: BGM berulang dan efek suara. Kalau tidak ada perangkat audio, game tetap jalan tanpa suara. |
+
 ## Hubungan antar kelas
 ```
 App ──membuat──► Logic ◄──────► View (JPanel)
@@ -27,6 +30,7 @@ App ──membuat──► Logic ◄──────► View (JPanel)
 - `Logic` memegang `Player`, daftar `Pipe`, dan `Sound`. `View` hanya membaca data itu lewat getter, lalu menggambarnya.
 - `Logic` memberi tahu `View` lewat `setScore()`, `showMessage()`, `startGameOverEffect()`, dan `clearGameOverEffect()`.
 - `Logic` tidak tahu soal CardLayout. Kembali ke menu dilakukan lewat `Runnable menuListener` yang dipasang `App`.
+
 ## Status permainan (State)
 Permainan punya tiga status di `Logic`:
 ```
@@ -41,15 +45,18 @@ Permainan punya tiga status di `Logic`:
 | `PLAYING` | Gravitasi, pipa, tabrakan, dan skor aktif. |
 | `GAME_OVER` | Semua berhenti. Hanya R dan M yang direspons. |
 Dengan status ini, `move()` cukup mengecek `if (state != PLAYING) return;` untuk membekukan permainan saat Game Over.
+
 ## Dua timer
 - **`gameLoop`** berjalan tiap 1000/60 ms (60 FPS). Ia memanggil `move()` lalu `repaint()`. Timer ini tetap hidup saat Game Over supaya animasi flash merah dan fade abu-abu tetap tampil.
 - **`pipesCooldown`** berjalan tiap 1500 ms dan memanggil `placePipes()`. Timer ini hanya hidup selama permainan berlangsung.
+
 ## Rincian fitur
 - **Tabrakan:** hitbox burung dibuat sebagai `Rectangle`, dikecilkan 3px di tiap sisi supaya adil. Dicek dengan `intersects()` terhadap setiap pipa. Jatuh ke bawah dicek lewat `posY + tinggi >= frameHeight`.
 - **Skor:** sepasang pipa (atas dan bawah) hanya bernilai 1 poin. Poin dihitung dari pipa atas saja, saat `posX burung > posX pipa + lebar pipa`. Flag `passed` mencegah poin terhitung dua kali.
 - **Rotasi burung:** sudut target dihitung dari kecepatan (`velocityY × 4.5`, dibatasi −30° sampai 80°). Sudut sekarang bergerak 20% mendekati target tiap frame, sehingga terlihat mengayun halus. Saat digambar, `Graphics2D.rotate()` memutar burung di sekitar titik tengahnya.
 - **Efek Game Over:** saat Game Over, adegan terakhir difoto ke `BufferedImage`. Dari foto itu dibuat versi abu-abu dengan rumus luminansi `0,299R + 0,587G + 0,114B` (saturasi 0). Tiap frame, `View` menggambar foto berwarna, menumpuk foto abu-abu dengan alpha naik 0→1 (fade in), lalu menumpuk lapisan merah yang alpha-nya turun dari 0,75→0 (flash).
 - **Audio:** BGM berulang dengan `Clip.loop`. Efek suara untuk lompat, skor, tabrakan, dan game over memakai `Clip` yang diputar ulang dari awal. Tiap kelipatan 10 skor, efek skor diganti efek spesial.
+
 # Alur Program
 atus menjadi `PLAYING`.
 ```
