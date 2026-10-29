@@ -67,6 +67,6 @@ Mulai program → Main Menu ─ KELUAR → selesai
 ```
 
 # Dokumentasi
-[![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/watch?v=4gRAuA6A8bM)
+[![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/1z0SDiUbW4s?si=ypS9b_5A8Sff6rkj)
 
 klik untuk melihat video
