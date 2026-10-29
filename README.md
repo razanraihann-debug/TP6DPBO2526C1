@@ -1,7 +1,7 @@
 # Janji
 Saya Razan Raihan Malik dengan NIM 2508838 mengerjakan Tugas Praktikum 6 pada Mata Kuliah Desain dan Pemrograman Berorientasi Objek (DPBO) untuk keberkahan-Nya maka saya tidak melakukan kecurangan seperti yang telah dispesifikasikan. Aamiin
 # Struktur File
-
+<img width="258" height="378" alt="Screenshot 2026-10-29 at 13 39 22" src="https://github.com/user-attachments/assets/bf205a56-e0eb-4f5e-ac1a-23d2ee92805a" />
 # Desain / Fungsi Program
 ## Arsitektur
 Program memakai pemisahan **Logic** (aturan dan data permainan) dan **View** (tampilan), mirip pola MVC sederhana.
